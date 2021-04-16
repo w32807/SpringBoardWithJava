@@ -1,12 +1,9 @@
 package com.zerock.config;
 
-import java.io.IOException;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.web.multipart.commons.CommonsFileUploadSupport;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -40,6 +37,13 @@ public class ServletConfig implements WebMvcConfigurer{
     // <resources mapping="/resources/**" location="/resources/" /> 과 대응
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+    
+    // 파일 업로드를 위한 MultipartResolver Bean으로 등록
+    @Bean
+    public MultipartResolver multipartResolver() {
+    	StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
+    	return resolver;
     }
     /*
     // 파일 업로드

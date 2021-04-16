@@ -40,6 +40,6 @@ public class BoardServiceTests extends ApplicationContextTest{
     
     @Test
     public void testRead() {
-        BoardVO board = mapper.read(5L);
+        BoardVO board = boardMapper.read(5L);
     }
 }

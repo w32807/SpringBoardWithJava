@@ -10,7 +10,6 @@ import com.zerock.domain.BoardVO;
 import com.zerock.domain.Criteria;
 import com.zerock.mapper.BoardMapper;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -45,7 +44,9 @@ public class BoardServiewImpl implements BoardService{
     public List<BoardVO> getList(Criteria cri) {
         return mapper.getListWithPaging(cri);
     }
-    
-    
 
+	@Override
+	public int getTotal(Criteria cri) {
+		return mapper.getTotalCount(cri);
+	}
 }

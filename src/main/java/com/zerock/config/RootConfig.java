@@ -8,6 +8,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -39,5 +40,11 @@ public class RootConfig {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         return (SqlSessionFactory) sessionFactory.getObject(); // Object를 얻어 형변환
+    }
+    
+    @Bean
+    // 트랜잭션 처리
+    public DataSourceTransactionManager txManager() {
+    	return new DataSourceTransactionManager(dataSource());
     }
 }
