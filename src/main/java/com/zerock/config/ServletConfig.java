@@ -1,7 +1,9 @@
 package com.zerock.config;
 
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -44,6 +46,14 @@ public class ServletConfig implements WebMvcConfigurer{
     public MultipartResolver multipartResolver() {
     	StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
     	return resolver;
+    }
+    
+    // properties 파일 관리르 위한 Bean 등록
+    @Bean(name = "global")
+    public PropertiesFactoryBean properties() {
+    	PropertiesFactoryBean bean = new PropertiesFactoryBean();
+    	bean.setLocation(new ClassPathResource("com/zerock/properties/global.properties"));
+    	return bean;
     }
     /*
     // 파일 업로드

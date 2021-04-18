@@ -43,5 +43,4 @@ public class DataSourceTests extends ApplicationContextTest{
             fail(e.getMessage());
         }
     }
-
 }

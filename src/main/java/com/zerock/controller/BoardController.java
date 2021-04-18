@@ -1,5 +1,6 @@
 package com.zerock.controller;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,6 +25,7 @@ import com.zerock.domain.BoardVO;
 import com.zerock.domain.Criteria;
 import com.zerock.domain.PageDTO;
 import com.zerock.service.BoardService;
+import com.zerock.utils.CommonUtils;
 
 import lombok.extern.log4j.Log4j;
 
@@ -51,10 +53,7 @@ public class BoardController {
     
     @PostMapping("/register")
     public String register(BoardVO board, RedirectAttributes rttr) {
-    	if(board.getAttachList() != null) {
-    		board.getAttachList().forEach(attach -> log.info(attach));
-    	}
-    	
+    	if(!CommonUtils.isNull(board.getAttachList())) board.getAttachList().forEach(attach -> log.info(attach));
         service.register(board);
         rttr.addFlashAttribute("result", board.getBno());
         return "redirect:/board/list";
@@ -92,22 +91,21 @@ public class BoardController {
     
     @GetMapping(value = "/getAttachList" , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno){
+    public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
     	return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
     }
     
     private void deleteFiles(List<BoardAttachVO> attachList) {
-    	if(attachList == null || attachList.size() == 0) return;
+    	if(!CommonUtils.isNull(attachList)) return;
 		attachList.forEach(attach -> {
-			try {
-				Path file = Paths.get("C:\\upload\\" + attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
-				Files.deleteIfExists(file);
-				if(Files.probeContentType(file).startsWith("image")) {
-					Path thumbNail = Paths.get("C:\\upload\\" + attach.getUploadPath() + "\\s_" + attach.getUuid() + "_" + attach.getFileName());
+				Path file = Paths.get(CommonUtils.filePath + "\\" + attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
+				try {
 					Files.deleteIfExists(file);
+					if(Files.probeContentType(file).startsWith("image")) 
+						Files.deleteIfExists(Paths.get(CommonUtils.filePath + "\\" + attach.getUploadPath() + "\\s_" + attach.getUuid() + "_" + attach.getFileName()));
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-			}
 		});
 	}
 }

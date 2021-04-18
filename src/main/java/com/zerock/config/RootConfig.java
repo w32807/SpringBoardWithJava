@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,18 +26,28 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableScheduling
 @EnableTransactionManagement
 public class RootConfig {
-    
+	
+	@Value("#{global['db.driver']}") 
+	private String dbDriver;
+	
+	@Value("#{global['db.url']}") 
+	private String dbUrl;
+	
+	@Value("#{global['db.username']}") 
+	private String dbUser;
+	
+	@Value("#{global['db.password']}") 
+	private String dbPassword;
+
     // Hikari CP를 이용한 DataSource Bean 생성
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
-        // hikariConfig.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-        // hikariConfig.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:orcl");
-        hikariConfig.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-        hikariConfig.setJdbcUrl("jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl");
-        hikariConfig.setUsername("c##book_ex");
-        hikariConfig.setPassword("1234");
-        
+
+        hikariConfig.setDriverClassName(dbDriver);
+        hikariConfig.setJdbcUrl(dbUrl);
+        hikariConfig.setUsername(dbUser);
+        hikariConfig.setPassword(dbPassword);
         return new HikariDataSource(hikariConfig);
     }
     
