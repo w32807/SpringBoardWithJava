@@ -11,18 +11,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-//servlet-context.xml¿¡ ¼³Á¤µÈ ¸ğµç ³»¿ëÀ» ´ã´Â Å¬·¡½º
-@EnableWebMvc // ¿©±â¼­´Â @EnableWebMvc ¾î³ëÅ×ÀÌ¼Ç + WebMvcConfigurer ÀÎÅÍÆäÀÌ½º »ó¼ÓÀ» ¹Ş¾Æ¼­ »ç¿ëÇÔ
+//servlet-context.xmlì— ì„¤ì •ëœ ëª¨ë“  ë‚´ìš©ì„ ë‹´ëŠ” í´ë˜ìŠ¤
+@EnableWebMvc // ì—¬ê¸°ì„œëŠ” @EnableWebMvc ì–´ë…¸í…Œì´ì…˜ + WebMvcConfigurer ì¸í„°í˜ì´ìŠ¤ ìƒì†ì„ ë°›ì•„ì„œ ì‚¬ìš©í•¨
 @ComponentScan(basePackages = {"com.zerock.controller"})
 public class ServletConfig implements WebMvcConfigurer{
 
     @Override
-    // viewResolver ¼³Á¤
+    // viewResolver ì„¤ì •
     /*
         <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/views/" />
         <beans:property name="suffix" value=".jsp" />
-    </beans:bean> °ú ´ëÀÀ
+    </beans:bean> ê³¼ ëŒ€ì‘
       */
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
@@ -33,21 +33,21 @@ public class ServletConfig implements WebMvcConfigurer{
     }
     
     @Override
-    // Á¤Àû ¸®¼Ò½º ¼³Á¤
-    // <resources mapping="/resources/**" location="/resources/" /> °ú ´ëÀÀ
+    // ì •ì  ë¦¬ì†ŒìŠ¤ ì„¤ì •
+    // <resources mapping="/resources/**" location="/resources/" /> ê³¼ ëŒ€ì‘
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
     
-    // ÆÄÀÏ ¾÷·Îµå¸¦ À§ÇÑ MultipartResolver BeanÀ¸·Î µî·Ï
+    // íŒŒì¼ ì—…ë¡œë“œë¥¼ ìœ„í•œ MultipartResolver Beanìœ¼ë¡œ ë“±ë¡
     @Bean
     public MultipartResolver multipartResolver() {
     	StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
     	return resolver;
     }
     /*
-    // ÆÄÀÏ ¾÷·Îµå
-    @Bean(name = "multipartResolver") // ¸Ş¼Òµå¸¦ »ç¿ëÇÒ ¶§¸¸ BeanÀ» ÁÖÀÔÇØÁØ´Ù
+    // íŒŒì¼ ì—…ë¡œë“œ
+    @Bean(name = "multipartResolver") // ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•  ë•Œë§Œ Beanì„ ì£¼ì…í•´ì¤€ë‹¤
     public CommonsFileUploadSupport getResolver() throws IOException{
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
         

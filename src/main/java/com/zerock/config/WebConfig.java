@@ -8,54 +8,54 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 
-// ¿©±â´Â web.xml°ú ´ëÀÀµÇ´Â Å¬·¡½º
+// ì—¬ê¸°ëŠ” web.xmlê³¼ ëŒ€ì‘ë˜ëŠ” í´ë˜ìŠ¤
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer{
     /*
-    1. ½ºÇÁ¸µÀÌ ½ÃÀÛµÇ¸é ¸ÕÀú ApplicationContext¶ó´Â ÀÌ¸§ÀÇ °´Ã¼°¡ ¸¸µé¾îÁü.
-    2. ±× ´ÙÀ½ ½ºÇÁ¸µÀÌ °´Ã¼¸¦ °ü¸®ÇÏ°í »ı¼ºÇØ¾ßÇÏ´Â °´Ã¼µé¿¡ ´ëÇÑ ¼³Á¤ÀÌ ÇÊ¿äÇÔ (root-context.xmlÆÄÀÏ, È¤Àº getRootConfigClassesÀÇ ¹İÈ¯°ªÀÌ µÇ´Â Å¬·¡½º)
-    3. ¸¸¾à ¿©·¯ ¼³Á¤µéÀ» ´Ù¸¥ Å¬·¡½º·Î ³ª´©¾î¼­ °ü¸®ÇÑ´Ù¸é, return °ª¿¡ ¿©·¯ Å¬·¡½º¸¦ ½áÁÖ¸é µÊ
+    1. ìŠ¤í”„ë§ì´ ì‹œì‘ë˜ë©´ ë¨¼ì € ApplicationContextë¼ëŠ” ì´ë¦„ì˜ ê°ì²´ê°€ ë§Œë“¤ì–´ì§.
+    2. ê·¸ ë‹¤ìŒ ìŠ¤í”„ë§ì´ ê°ì²´ë¥¼ ê´€ë¦¬í•˜ê³  ìƒì„±í•´ì•¼í•˜ëŠ” ê°ì²´ë“¤ì— ëŒ€í•œ ì„¤ì •ì´ í•„ìš”í•¨ (root-context.xmlíŒŒì¼, í˜¹ì€ getRootConfigClassesì˜ ë°˜í™˜ê°’ì´ ë˜ëŠ” í´ë˜ìŠ¤)
+    3. ë§Œì•½ ì—¬ëŸ¬ ì„¤ì •ë“¤ì„ ë‹¤ë¥¸ í´ë˜ìŠ¤ë¡œ ë‚˜ëˆ„ì–´ì„œ ê´€ë¦¬í•œë‹¤ë©´, return ê°’ì— ì—¬ëŸ¬ í´ë˜ìŠ¤ë¥¼ ì¨ì£¼ë©´ ë¨
     */
     @Override
-    // root-context.xmlÀ» ´ë½ÅÇÏ´Â ¸Ş¼Òµå
+    // root-context.xmlì„ ëŒ€ì‹ í•˜ëŠ” ë©”ì†Œë“œ
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] {RootConfig.class}; 
-        // ½ÇÁ¦ root-context.xmlÀÇ ³»¿ëÀÌ ÀÛ¼ºµÉ Å¬·¡½º¸¦ ¸®ÅÏ (¸®ÇÃ·º¼ÇÀ» ÀÌ¿ëÇÑ Å¬·¡½º »ı¼º)
-        // root-context¿¡´Â ÀÚ¹Ù ¼³Á¤ (DB , Bean scan µîÀÇ ³»¿ëÀ» ÀÛ¼º)
+        // ì‹¤ì œ root-context.xmlì˜ ë‚´ìš©ì´ ì‘ì„±ë  í´ë˜ìŠ¤ë¥¼ ë¦¬í„´ (ë¦¬í”Œë ‰ì…˜ì„ ì´ìš©í•œ í´ë˜ìŠ¤ ìƒì„±)
+        // root-contextì—ëŠ” ìë°” ì„¤ì • (DB , Bean scan ë“±ì˜ ë‚´ìš©ì„ ì‘ì„±)
     }
 
     @Override
-    // servlet-context.xmlÀ» ´ë½ÅÇÏ´Â ¸Ş¼Òµå
+    // servlet-context.xmlì„ ëŒ€ì‹ í•˜ëŠ” ë©”ì†Œë“œ
     protected Class<?>[] getServletConfigClasses() {
         return new Class[] {ServletConfig.class};
-        // ½ÇÁ¦ servlet-context.xmlÀÇ ³»¿ëÀÌ ÀÛ¼ºµÉ Å¬·¡½º¸¦ ¸®ÅÏ (¸®ÇÃ·º¼ÇÀ» ÀÌ¿ëÇÑ Å¬·¡½º »ı¼º)
-        // servlet-context¿¡´Â À¥ °ü·Ã ¼³Á¤À» ÀÛ¼º
+        // ì‹¤ì œ servlet-context.xmlì˜ ë‚´ìš©ì´ ì‘ì„±ë  í´ë˜ìŠ¤ë¥¼ ë¦¬í„´ (ë¦¬í”Œë ‰ì…˜ì„ ì´ìš©í•œ í´ë˜ìŠ¤ ìƒì„±)
+        // servlet-contextì—ëŠ” ì›¹ ê´€ë ¨ ì„¤ì •ì„ ì‘ì„±
     }
 
     @Override
-    /* web.xmlÀÇ   
+    /* web.xmlì˜   
     <servlet-mapping>
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
-    </servlet-mapping> À» ´ë½ÅÇÏ´Â ¸Ş¼Òµå*/
+    </servlet-mapping> ì„ ëŒ€ì‹ í•˜ëŠ” ë©”ì†Œë“œ*/
     protected String[] getServletMappings() {
         return new String[] {"/"};
     }
     
-    /* web.xmlÀÇ   
+    /* web.xmlì˜   
         <init-param>
           <param-name>throwExceptionIfNoHandlerFound</param-name>
           <param-value>true</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup> À» ´ë½ÅÇÏ´Â ¸Ş¼Òµå*/
+        <load-on-startup>1</load-on-startup> ì„ ëŒ€ì‹ í•˜ëŠ” ë©”ì†Œë“œ*/
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
-        // ÆÄÀÏ ¾÷·Îµå ¼³Á¤ (ÆÄÀÏÀº ¼­¹ö ÄÄÇ»ÅÍÀÇ ¾îµò°¡ÀÇ Æú´õ¿¡ ÀúÀåµÈ´Ù.
+        // íŒŒì¼ ì—…ë¡œë“œ ì„¤ì • (íŒŒì¼ì€ ì„œë²„ ì»´í“¨í„°ì˜ ì–´ë”˜ê°€ì˜ í´ë”ì— ì €ì¥ëœë‹¤.
         MultipartConfigElement multipartConfig = new MultipartConfigElement("C:\\upload\\tmp", 20971520, 41943040, 20971520);
         registration.setMultipartConfig(multipartConfig);
     }
 
-    /*  <!-- ÇÑ±Û ÇÊÅÍ -->
+    /*  <!-- í•œê¸€ í•„í„° -->
     <filter>
         <filter-name>encoding</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -68,7 +68,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
         <filter-name>encoding</filter-name>
         <servlet-name>appServlet</servlet-name>
     </filter-mapping>
-    <!-- ÇÑ±Û¼³Á¤ END -->*/
+    <!-- í•œê¸€ì„¤ì • END -->*/
     @Override
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();

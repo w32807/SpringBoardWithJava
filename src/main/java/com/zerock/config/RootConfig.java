@@ -8,19 +8,25 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-@Configuration // xml ´ë½Å ¼³Á¤ÆÄÀÏ·Î ¸¸µé°íÀÚ ÇÏ´Â Å¬·¡½º¿¡ ºÙÀÌ´Â ¾î³ëÅ×ÀÌ¼Ç
-// root-contextÀÇ <context:component-scan base-package="org.zerock.sample"/> Element¿Í µ¿ÀÏ
-//@ComponentScan(basePackages = {"org.zerock.sample", "´Ù¸¥ ÆĞÅ°Áö..."}) Çü½ÄÀ¸·Î ¿©·¯ ÆĞÅ°Áö¸¦ µ¿½Ã¿¡ ÀÛ¼ºÇÒ ¼ö ÀÖÀ½ (Áß°ıÈ£ »ç¿ë)
-@ComponentScan(basePackages = {"com.zerock.service"})
+@Configuration // xml ëŒ€ì‹  ì„¤ì •íŒŒì¼ë¡œ ë§Œë“¤ê³ ì í•˜ëŠ” í´ë˜ìŠ¤ì— ë¶™ì´ëŠ” ì–´ë…¸í…Œì´ì…˜
+// root-contextì˜ <context:component-scan base-package="org.zerock.sample"/> Elementì™€ ë™ì¼
+//@ComponentScan(basePackages = {"org.zerock.sample", "ë‹¤ë¥¸ íŒ¨í‚¤ì§€..."}) í˜•ì‹ìœ¼ë¡œ ì—¬ëŸ¬ íŒ¨í‚¤ì§€ë¥¼ ë™ì‹œì— ì‘ì„±í•  ìˆ˜ ìˆìŒ (ì¤‘ê´„í˜¸ ì‚¬ìš©)
+@ComponentScan(basePackages = {"com.zerock.service", "com.zerock.task", "com.zerock.aop"})
 @MapperScan(basePackages = {"com.zerock.mapper"})
+@EnableAspectJAutoProxy
+@EnableScheduling
+@EnableTransactionManagement
 public class RootConfig {
     
-    // Hikari CP¸¦ ÀÌ¿ëÇÑ DataSource Bean »ı¼º
+    // Hikari CPë¥¼ ì´ìš©í•œ DataSource Bean ìƒì„±
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
@@ -35,15 +41,15 @@ public class RootConfig {
     }
     
     @Bean
-    // mybatis °ü·Ã ¼³Á¤À¸·Î sqlSessionÀ» »ı¼º
+    // mybatis ê´€ë ¨ ì„¤ì •ìœ¼ë¡œ sqlSessionì„ ìƒì„±
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        return (SqlSessionFactory) sessionFactory.getObject(); // Object¸¦ ¾ò¾î Çüº¯È¯
+        return (SqlSessionFactory) sessionFactory.getObject(); // Objectë¥¼ ì–»ì–´ í˜•ë³€í™˜
     }
     
     @Bean
-    // Æ®·£Àè¼Ç Ã³¸®
+    // íŠ¸ëœì­ì…˜ ì²˜ë¦¬
     public DataSourceTransactionManager txManager() {
     	return new DataSourceTransactionManager(dataSource());
     }
