@@ -98,6 +98,7 @@
 		// submit 버튼 막기
 		var formObj = $('form[role="form"]');
 		$('button[type="submit"]').on('click', function (e) {
+			// 원하는 작업 후, submit 처리를 하기 위함
 			e.preventDefault();
 			var str = '';
 			$('.uploadResult ul li').each(function (i, obj) {

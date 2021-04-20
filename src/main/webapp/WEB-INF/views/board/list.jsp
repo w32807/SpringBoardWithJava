@@ -67,12 +67,12 @@
 						</c:if>            		
 	                    <%-- <c:forEach var="num" begin="<c:out value="${pageMaker.startPage }"/>" end="<c:out value="${pageMaker.endPage }"/>"> --%>
 	                    <c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-	                        <li class="paginate_button" ${pageMaker.cri.pageNum == num ? "active" : "" }>
+	                        <li class="paginate_button ${pageMaker.cri.pageNum == num ? 'active' : '' } ">
 	                        	<a href="${num }"><c:out value="${num }"/></a>
 	                       	</li>
 	                    </c:forEach>
 						<c:if test="${pageMaker.next}">
-							<li class="paginate_button next"><a href="#">Next</a></li>
+							<li class="paginate_button next"><a href="<c:out value="${pageMaker.endPage + 1 }"/>">Next</a></li>
 						</c:if>            		
 	            	</ul>
 	            </div>

@@ -6,16 +6,19 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zerock.utils.StringBox;
 
 @Configuration // xml 대신 설정파일로 만들고자 하는 클래스에 붙이는 어노테이션
 // root-context의 <context:component-scan base-package="org.zerock.sample"/> Element와 동일
@@ -63,5 +66,16 @@ public class RootConfig {
     // 트랜잭션 처리
     public DataSourceTransactionManager txManager() {
     	return new DataSourceTransactionManager(dataSource());
+    }
+    
+    // properties 파일 관리를 위한 Bean 등록
+    // Junit과 tomcat의 RootConfig, ServletConfig의 실행순서가 다른 지는 몰라도, @Value와 같은 파일에 작성하지 않으면
+    // Junit에서는 DB연결이 되나, tomcat에서는 안되는 상황이 발생할 수 있다. 
+    @Bean(name = "global")
+    public PropertiesFactoryBean properties() {
+    	PropertiesFactoryBean bean = new PropertiesFactoryBean();
+    	bean.setLocation(new ClassPathResource("com/zerock/properties/global.properties"));
+    	bean.setFileEncoding(StringBox.UTF_8);
+    	return bean;
     }
 }

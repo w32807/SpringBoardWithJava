@@ -3,6 +3,7 @@ package com.zerock.config;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import com.zerock.utils.StringBox;
 
 //servlet-context.xml에 설정된 모든 내용을 담는 클래스
 @EnableWebMvc // 여기서는 @EnableWebMvc 어노테이션 + WebMvcConfigurer 인터페이스 상속을 받아서 사용함
@@ -48,13 +51,6 @@ public class ServletConfig implements WebMvcConfigurer{
     	return resolver;
     }
     
-    // properties 파일 관리르 위한 Bean 등록
-    @Bean(name = "global")
-    public PropertiesFactoryBean properties() {
-    	PropertiesFactoryBean bean = new PropertiesFactoryBean();
-    	bean.setLocation(new ClassPathResource("com/zerock/properties/global.properties"));
-    	return bean;
-    }
     /*
     // 파일 업로드
     @Bean(name = "multipartResolver") // 메소드를 사용할 때만 Bean을 주입해준다

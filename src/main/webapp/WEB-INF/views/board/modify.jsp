@@ -183,7 +183,7 @@
 		});
 		
 		//파일 업로드
-var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 		var maxSize = 5242880; // 5MB
 		// 파일 유효성 검사
 		function checkExtension(fileName, fileSize) {

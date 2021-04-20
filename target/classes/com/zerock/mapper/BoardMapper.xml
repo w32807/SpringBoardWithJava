@@ -45,6 +45,7 @@
 	            WHERE 
 		]]>	    
 		<include refid="criteria"/>
+		<!-- rownum으로 앞 뒤를 잘라 원하는 갯수의 데이터만 가져옴 -->
 		<![CDATA[        
 	            rownum <= #{pageNum} * #{amount}
             )

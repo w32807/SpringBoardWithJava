@@ -24,7 +24,6 @@ public interface BoardMapper {
     public int delete(Long bno);
     
     public int update(BoardVO board);
-    
     // Mybatis에 2개 이상의 매개변수를 전달할 때 @Param을 사용 
     public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
 }

@@ -17,20 +17,17 @@ public class Criteria {
     
     private String type; // 검색타입
     private String keyword; // 키워드
-    
-    public Criteria() {
-    	this(1, 10);
-	}
+    // 페이지 생성 시, 1페이지에 10개 씩 보여줌
+    public Criteria() {this(1, 10);}
     
     public Criteria(int pageNum, int amount) {
     	this.pageNum = pageNum;
     	this.amount = amount;
 	}
-    
+    // 검색조건 가져오기
     public String[] getTypeArr() {
     	return type == null ? new String[] {} : type.split("");
     }
-    
     // 매번 페이징, 검색어 파라미터를 페이지마다 유지하는 일이 번거로워서 
     // UriComponentsBuilder를 이용하자.
     // UriComponentsBuilder는 여러 개의 파라미터들을 연결해서 URL의 형태로 만들어주는 기능을 한다.

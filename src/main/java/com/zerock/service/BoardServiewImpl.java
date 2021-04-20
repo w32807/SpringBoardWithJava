@@ -12,6 +12,7 @@ import com.zerock.domain.BoardVO;
 import com.zerock.domain.Criteria;
 import com.zerock.mapper.BoardAttachMapper;
 import com.zerock.mapper.BoardMapper;
+import com.zerock.utils.CommonUtils;
 
 import lombok.extern.log4j.Log4j;
 
@@ -31,7 +32,7 @@ public class BoardServiewImpl implements BoardService{
     public void register(BoardVO board) {
         mapper.insertSelectKey(board);
         
-        if(board.getAttachList() == null || board.getAttachList().size() < 0) return;
+        if(CommonUtils.isNull(board.getAttachList())) return;
         
         board.getAttachList().forEach(attach -> {
         	attach.setBno(board.getBno());
@@ -45,11 +46,12 @@ public class BoardServiewImpl implements BoardService{
     }
 
     @Override
+    @Transactional
     public boolean modify(BoardVO board) {
     	// delete 후 insert 처리
-    	attachMapper.deleteAll(board.getBno());
     	boolean modifyResult = mapper.update(board) == 1;
-    	if(modifyResult && board.getAttachList() != null && board.getAttachList().size() > 0) {
+    	if(modifyResult && !CommonUtils.isNull(board.getAttachList())) {
+    		attachMapper.deleteAll(board.getBno());
     		board.getAttachList().forEach(attach -> {
     			attach.setBno(board.getBno());
     			attachMapper.insert(attach);
@@ -59,6 +61,7 @@ public class BoardServiewImpl implements BoardService{
     }
 
     @Override
+    @Transactional
     public boolean remove(Long bno) {
     	attachMapper.deleteAll(bno);
         return mapper.delete(bno) == 1;
